@@ -13,17 +13,18 @@ const SiteLayout = ({
   const [isShowing, setShowing] = useState(false);
   const [hidden, setHidden] = useState(isShowing);
   const [animate, setAnimate] = useState(isShowing);
-
+  const [initialRender, setInitialRender] = useState(true);
   useEffect(() => {
     if (isShowing) {
       setHidden(false);
-      setTimeout(() => setAnimate(true), 300);
+      setTimeout(() => setAnimate(true), initialRender ? 0 : 300);
     }
     if (!isShowing) {
       setAnimate(false);
-      setTimeout(() => setHidden(true), 300);
+      setTimeout(() => setHidden(true), initialRender ? 0 : 300);
     }
-  }, [isShowing]);
+    setInitialRender(false);
+  }, [isShowing, initialRender]);
   const value = useMemo(
     () => ({
       isShowing,
