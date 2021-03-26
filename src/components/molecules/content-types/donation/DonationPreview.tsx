@@ -28,7 +28,7 @@ export const DonationPreview = ({
         </Link>
       </div>
       <BlurImage
-        className="float-left mr-4 w-96 h-80"
+        className="mx-auto sm:float-left sm:mr-4 w-52 sm:w-96 h-80"
         src={image.src}
         base64={image.base64}
         alt={image.alt}

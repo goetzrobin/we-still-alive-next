@@ -28,6 +28,7 @@ export const Header = ({
         <link rel="icon" href="favicon.svg" />
         <meta property="og:title" content={headData?.pageTitle} key="title" />
         <link rel="mask-icon" href="mask-icon.svg" color="#222222" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <header
         className={clsx(

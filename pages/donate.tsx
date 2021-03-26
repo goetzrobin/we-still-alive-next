@@ -32,7 +32,7 @@ const Donate = ({ donateData: { heading }, donateHeroImage }: DonateProps): Reac
           <section className="w-full px-2 sm:px-8 sm:w-1/2 ">
             <WHMain className="text-gray-100">{heading}</WHMain>
           </section>
-          <section className="relative z-50 block w-full p-8 my-8 bg-white rounded-lg shadow-xl sm:my-0 sm:mx-8 lg:mx-24 sm:w-1/2">
+          <section className="relative z-50 block w-full p-8 my-8 bg-white rounded-sm shadow-xl sm:my-0 sm:mx-8 lg:mx-24 sm:w-1/2">
             <WH1>Donate Today</WH1>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi nobis consectetur,
@@ -40,7 +40,7 @@ const Donate = ({ donateData: { heading }, donateHeroImage }: DonateProps): Reac
               perspiciatis iure suscipit odit itaque error sit quas!
             </p>
             <h2 className="text-lg font-semibold text-right">{formatCurrency(goal)}</h2>
-            <DonationBar percentage={15} />
+            {/* <DonationBar percentage={15} /> */}
             <div className="flex flex-row justify-between mt-8">
               <div>
                 <h2 className="text-lg font-semibold">0</h2>
