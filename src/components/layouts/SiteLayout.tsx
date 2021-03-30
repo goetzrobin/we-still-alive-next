@@ -11,20 +11,18 @@ const SiteLayout = ({
 }: PropsWithChildren<{ absoluteHeader?: boolean }>): React.ReactElement => {
   const { links, name, title } = SiteService.getSiteData();
   const [isShowing, setShowing] = useState(false);
-  const [hidden, setHidden] = useState(isShowing);
-  const [animate, setAnimate] = useState(isShowing);
-  const [initialRender, setInitialRender] = useState(true);
+  const [hidden, setHidden] = useState(true);
+  const [animate, setAnimate] = useState(false);
   useEffect(() => {
     if (isShowing) {
       setHidden(false);
-      setTimeout(() => setAnimate(true), initialRender ? 0 : 300);
+      setTimeout(() => setAnimate(true), 300);
     }
     if (!isShowing) {
       setAnimate(false);
-      setTimeout(() => setHidden(true), initialRender ? 0 : 300);
+      setTimeout(() => setHidden(true), 300);
     }
-    setInitialRender(false);
-  }, [isShowing, initialRender]);
+  }, [isShowing]);
   const value = useMemo(
     () => ({
       isShowing,
