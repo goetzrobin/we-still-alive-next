@@ -78,7 +78,7 @@ export const getServerSideProps: GetServerSideProps = async (): Promise<
   const donationsList = await DonationService.fetchAllDonations();
   const postData = await PostService.fetchPosts(4, 1, 5);
   const indexHeroImage = await ImageService.getBlurImageProps(
-    '/kenia.jpg',
+    '/guysrunning.jpg',
     'Man standing in field in Kenia'
   );
   const data =
