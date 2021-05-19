@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { StripeCardElement } from '@stripe/stripe-js';
+import { WButton } from '@atoms/typo/buttons/WButton';
 
-export const CheckoutForm = ({ secret }: { secret: string | null }): React.ReactElement => {
+export const CheckoutForm = ({
+  customerInfo,
+  onCancel,
+  secret,
+}: {
+  customerInfo: any;
+  onCancel: () => void;
+  secret: string | null;
+}): React.ReactElement => {
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -17,18 +29,22 @@ export const CheckoutForm = ({ secret }: { secret: string | null }): React.React
       return;
     }
 
+    setLoading(true);
     const result = await stripe.confirmCardPayment(secret, {
       payment_method: {
         card: elements.getElement(CardElement) as StripeCardElement,
         billing_details: {
-          name: 'Jenny Rosen',
+          name: customerInfo.firstName + ' ' + customerInfo.lastName,
         },
       },
     });
 
     if (result.error) {
+      console.log('error', result);
       // Show error to your customer (e.g., insufficient funds)
-      console.log(result.error.message);
+      setLoading(false);
+      setSuccess(false);
+      setLoaded(true);
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
@@ -38,16 +54,38 @@ export const CheckoutForm = ({ secret }: { secret: string | null }): React.React
         // payment_intent.succeeded event that handles any business critical
         // post-payment actions.
         console.log('success');
+        setLoading(false);
+        setSuccess(true);
+        setLoaded(true);
       }
     }
   };
 
+  let content = <div className="hidden"></div>;
+  if (!loaded && loading) {
+    content = <div>Loading...</div>;
+  } else if (loaded && success) {
+    content = <div>Success</div>;
+  } else if (loaded && !success) {
+    content = <div>Something went wrong...</div>;
+  }
   return (
-    <form className="col-span-6" onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Pay
-      </button>
+    <form className="col-span-6 p-3" onSubmit={handleSubmit}>
+      <h3 className="mb-4 text-lg font-medium leading-6 text-gray-900">
+        Enter Your Card Information
+      </h3>
+      <div className="max-w-xl py-4">
+        {content}
+        <CardElement className={loading || loaded ? 'hidden' : 'block'} />
+      </div>
+      <div className="flex py-4 sm:py-6">
+        <WButton type="submit" disabled={!stripe}>
+          Complete Donation
+        </WButton>
+        <button className="ml-6" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

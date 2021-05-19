@@ -1,26 +1,32 @@
-import { FormField } from '../layout/FormField';
 import clsx from 'clsx';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import CurrencyInput from 'react-currency-input-field';
+import { FormField } from '../layout/FormField';
 
-interface FormInputProps {
-  id: string;
-  label: string;
+interface FormCurrencyProps {
   prefix?: string;
   className?: string;
-  type?: string;
-  step?: number;
-  register: () => UseFormRegisterReturn;
+  label?: string;
+  id: string;
+  name: string;
+  placeholder: string;
+  defaultValue: number;
+  decimalsLimit: number;
+  value?: number;
+  onValueChange: (value: string | undefined, name?: string | undefined) => void;
 }
 
-export const FormInput = ({
-  id,
+export const FormCurrency = ({
+  className,
   label,
-  className = 'col-span-6 sm:col-span-3',
   prefix,
-  type,
-  step,
-  register,
-}: FormInputProps): React.ReactElement => {
+  id,
+  name,
+  placeholder,
+  defaultValue,
+  decimalsLimit,
+  value,
+  onValueChange,
+}: FormCurrencyProps): React.ReactElement => {
   return (
     <FormField className={className}>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -32,10 +38,14 @@ export const FormInput = ({
             {prefix}
           </span>
         )}
-        <input
-          type={type}
-          step={step}
-          {...register()}
+        <CurrencyInput
+          id={id}
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          decimalsLimit={decimalsLimit}
+          onValueChange={onValueChange}
           className={clsx(
             prefix ? 'rounded-none rounded-r-md' : 'rounded-md',
             'block w-full px-3 py-2 border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blur-500 sm:text-sm'

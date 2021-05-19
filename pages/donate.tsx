@@ -19,12 +19,8 @@ interface DonateProps {
   donateHeroImage: BlurImageProps;
 }
 
-const formatCurrency = (amount = 99999): string => {
-  return `$${amount.toFixed(2)}`;
-};
 const Donate = ({ donateData: { heading }, donateHeroImage }: DonateProps): React.ReactElement => {
-  const goal = 2000;
-  const { setShowing } = useContext(DonationModalContext);
+  const url = 'https://tumainivolunteers.org/donate-1';
   return (
     <>
       <HeroImage heroImage={donateHeroImage}>
@@ -39,14 +35,8 @@ const Donate = ({ donateData: { heading }, donateHeroImage }: DonateProps): Reac
               adipisci iusto ratione dignissimos voluptas aut? Fuga, aut sed explicabo consectetur
               perspiciatis iure suscipit odit itaque error sit quas!
             </p>
-            <h2 className="text-lg font-semibold text-right">{formatCurrency(goal)}</h2>
-            {/* <DonationBar percentage={15} /> */}
             <div className="flex flex-row justify-between mt-8">
-              <div>
-                <h2 className="text-lg font-semibold">0</h2>
-                <p className="text-gray-600">Donors</p>
-              </div>
-              <WButton onClick={() => setShowing(true)}>Donate</WButton>
+              <WButton onClick={() => window.open(url, '_blank')}>Donate</WButton>
             </div>
           </section>
         </main>

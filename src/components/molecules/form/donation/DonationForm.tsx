@@ -1,3 +1,4 @@
+import { FormCurrency } from '@atoms/form/field/FormCurrency';
 import { FormHeading, FormHeadingProps } from '@atoms/form/field/FormHeading';
 import { FormInput } from '@atoms/form/field/FormInput';
 import { FormSelectButton } from '@atoms/form/field/FormSelectButton';
@@ -5,7 +6,8 @@ import { FormDivider } from '@atoms/form/layout/FormDivider';
 import { FormGrid, FormGridRow } from '@atoms/form/layout/FormGrid';
 import { FormSection } from '@atoms/form/layout/FormSection';
 import { WButton } from '@atoms/typo/buttons/WButton';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { appendErrors, useForm } from 'react-hook-form';
 import { CheckoutForm } from '../checkout/CheckoutForm';
 
 export interface DonationFormProps {
@@ -26,11 +28,17 @@ export const DonationForm = ({
   const [donation, setDonation] = useState(1000);
   const [readyForPayment, setReadyForPayment] = useState(false);
   const [secret, setSecret] = useState<string | null>(null);
+  const [formData, setFormData] = useState<any | null>(null);
   const onDonationChange = (value: string | number | null): void => {
     setDonation(parseFloat(`${value}` ?? 0) * 100);
   };
-  const onFormChange = (e: unknown): void => {
-    console.log(e);
+  const { register, handleSubmit, formState } = useForm();
+  const submitForm = async (data: any): Promise<void> => {
+    setFormData(data);
+    const response = await fetch(`/api/donations/intent?amount=${donation}`);
+    const { client_secret: clientSecret } = await response.json();
+    setSecret(clientSecret);
+    setReadyForPayment(true);
   };
   return (
     <FormGrid>
@@ -70,83 +78,79 @@ export const DonationForm = ({
                   },
                 ]}
               />
-              <FormInput
+              <FormCurrency
                 label="Or choose your own"
                 id="custom"
-                type="number"
-                step={0.01}
-                value={(donation / 100.0).toFixed(2).toString()}
-                min={0}
+                name="custom"
+                placeholder="Enter Dollar Amount"
+                defaultValue={donation / 100}
+                value={donation / 100}
+                decimalsLimit={2}
                 prefix="$"
-                onChange={onDonationChange}
+                onValueChange={(value) => onDonationChange(value || null)}
               />
             </FormSection>
           </FormGridRow>
           <FormDivider />
-          <FormGridRow>
-            <FormSection
-              subheading="Contact Information"
-              subdescription="Thank you so much for your donation. Help us get to know you!"
-            >
-              <FormInput label="First Name" id="first-name" onChange={onFormChange} />
-              <FormInput label="Last Name" id="last-name" onChange={onFormChange} />
-              <FormInput
-                className="col-span-6 sm:col-span-4"
-                label="E-Mail Address"
-                id="email"
-                onChange={onFormChange}
-              />
-            </FormSection>
-          </FormGridRow>
-          <FormGridRow>
-            <FormSection
-              subheading="Billing Address"
-              subdescription="This is for our records and your tax credit only"
-            >
-              <FormInput
-                className="col-span-6"
-                label="Street Address"
-                id="email"
-                onChange={onFormChange}
-              />
-              <FormInput
-                className="col-span-6 sm:col-span-3 lg:col-span-2"
-                label="City"
-                id="email"
-                onChange={onFormChange}
-              />
-              <FormInput
-                className="col-span-6 sm:col-span-3 lg:col-span-2"
-                label="ZIP"
-                id="email"
-                onChange={onFormChange}
-              />
-              <FormInput
-                className="col-span-6 sm:col-span-3 lg:col-span-2"
-                label="State"
-                id="email"
-                onChange={onFormChange}
-              />
-            </FormSection>
-          </FormGridRow>
-          <FormGridRow>
-            <div className="py-4 sm:py-6">
-              <WButton
-                className="w-full sm:w-auto"
-                onClick={(e) => {
-                  e.preventDefault();
-                  (async () => {
-                    const response = await fetch(`/api/donations/intent?amount=${donation}`);
-                    const { client_secret: clientSecret } = await response.json();
-                    setSecret(clientSecret);
-                    setReadyForPayment(true);
-                  })();
-                }}
+          <form id="personal-data" onSubmit={handleSubmit(submitForm)}>
+            <FormGridRow>
+              <FormSection
+                subheading="Contact Information"
+                subdescription="Thank you so much for your donation. Help us get to know you!"
               >
-                Donate Now
-              </WButton>
-            </div>
-          </FormGridRow>
+                <FormInput
+                  label="First Name"
+                  id="first-name"
+                  register={() => register('firstName', { required: true })}
+                />
+                <FormInput label="Last Name" id="last-name" register={() => register('lastName')} />
+                <FormInput
+                  className="col-span-6 sm:col-span-4"
+                  label="E-Mail Address"
+                  id="email"
+                  register={() => register('email', { required: true })}
+                />
+              </FormSection>
+            </FormGridRow>
+            <FormGridRow>
+              <FormSection
+                subheading="Billing Address"
+                subdescription="This is for our records and your tax credit only"
+              >
+                <FormInput
+                  className="col-span-6"
+                  label="Street Address"
+                  id="street"
+                  register={() => register('street')}
+                />
+                <FormInput
+                  className="col-span-6 sm:col-span-3 lg:col-span-2"
+                  label="City"
+                  id="city"
+                  register={() => register('city')}
+                />
+                <FormInput
+                  className="col-span-6 sm:col-span-3 lg:col-span-2"
+                  label="ZIP"
+                  id="zip"
+                  register={() => register('zip')}
+                />
+                <FormInput
+                  className="col-span-6 sm:col-span-3 lg:col-span-2"
+                  label="State"
+                  id="state"
+                  register={() => register('state')}
+                />
+              </FormSection>
+            </FormGridRow>
+            <FormGridRow>
+              <div className="py-4 sm:py-6">
+                <WButton className="w-full sm:w-auto" type="submit" form="personal-data">
+                  Donate Now
+                </WButton>
+              </div>
+            </FormGridRow>
+          </form>
         </>
       ) : (
         <FormGridRow>
@@ -156,7 +160,11 @@ export const DonationForm = ({
               <p className="mt-1 text-gray-700 text-7xl">{formatDonation(donation)}</p>
             }
           >
-            <CheckoutForm secret={secret} />
+            <CheckoutForm
+              customerInfo={formData}
+              onCancel={() => setReadyForPayment(false)}
+              secret={secret}
+            />
           </FormSection>
         </FormGridRow>
       )}
