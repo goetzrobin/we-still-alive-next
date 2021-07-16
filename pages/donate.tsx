@@ -28,11 +28,11 @@ const Donate = ({ donateData: { heading }, donateHeroImage }: DonateProps): Reac
           <section className="relative z-50 block w-full p-8 my-8 bg-white rounded-sm shadow-xl sm:my-0 sm:mx-8 lg:mx-24 sm:w-1/2">
             <WH1>Donate Today</WH1>
             <p>
-              Please help by donating, via the TumainiVolunteer service bottom, to provide to
+              Donate, via the TumainiVolunteer service donation page. Your donation will help
               Settled Internally Displaced People (SIDP) located in Maai Mahiu (Kenya), and the
-              Maasai Community located in Maasai Mara, in Ololaimutia (Kenya), to provide efficient
-              access to water services, to reduce the spread of common tropical infections, and to
-              help them access effectively academic learning settings in their area.
+              Maasai Community located in Maasai Mara, in Ololaimutia (Kenya). With your help we can
+              build water towers to make water services more efficient and allow more people access
+              to clean water.
             </p>
             <div className="flex flex-row justify-between mt-8">
               <WButton onClick={() => window.open(url, '_blank')}>Donate</WButton>
