@@ -1,5 +1,4 @@
 import { BlurImageProps } from '@atoms/image/BlurImage';
-import { DonationBar } from '@atoms/other/DonationBar';
 import { WButton } from '@atoms/typo/buttons/WButton';
 import { WH1 } from '@atoms/typo/headings/WH1';
 import { WHMain } from '@atoms/typo/headings/WHMain';
@@ -7,8 +6,6 @@ import { PageErrorProps } from '@models/page/PageErrorProps';
 import { HeroImage } from '@molecules/image/HeroImage';
 import ImageService from '@services/image/image.service';
 import { GetServerSideProps } from 'next';
-import { useContext } from 'react';
-import DonationModalContext from 'src/contexts/modal/DonationModalContext';
 
 export interface DonateData {
   heading: string;
