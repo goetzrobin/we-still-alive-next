@@ -35,6 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
 }): Promise<{ props: PostProps } | PageErrorProps> => {
   const data = await PostService.fetchPostBySlug((query?.slug as string) ?? '');
+  console.log(data);
   if (!query?.slug || !data) {
     return {
       redirect: {

@@ -1,38 +1,30 @@
+import BlurImage from '@atoms/image/BlurImage';
 import { Section } from '@atoms/layout/Section';
-import { AuthorData } from '@models/data/AuthorData';
-import { ObjectiveData } from '@models/data/ObjectiveData';
+import { WH1 } from '@atoms/typo/headings/WH1';
+import MarkDown from '@atoms/typo/markdown/Markdown';
+import { AboutData } from '@models/data/AboutData';
 import { PageErrorProps } from '@models/page/PageErrorProps';
-import { Intro, IntroProps } from '@organisms/Intro';
-import { Objectives, ObjectivesProps } from '@organisms/Objectives';
-import AuthorService from '@services/author/author.service';
-import IndexService from '@services/index/index.service';
-import ObjectiveService from '@services/objective/objective.service';
+import AboutService from '@services/about/about.service';
 import { GetServerSideProps } from 'next';
-import { IndexData } from 'pages';
-
-export interface AboutData {
-  intro: IntroProps;
-  objectives: ObjectivesProps;
-}
 
 interface AboutProps {
-  indexData: IndexData;
-  authorData: AuthorData;
-  objectivesList: ObjectiveData[];
+  aboutData: AboutData;
 }
 
-const About = ({
-  indexData: { intro, objectives },
-  authorData,
-  objectivesList,
-}: AboutProps): React.ReactElement => {
+const About = ({ aboutData }: AboutProps): React.ReactElement => {
   return (
     <>
       <Section>
-        <Intro intro={intro} author={authorData} />
-      </Section>
-      <Section>
-        <Objectives intro={objectives} objectives={objectivesList} />
+        <WH1>{aboutData.title}</WH1>
+        <div className="mb-4">
+          <BlurImage
+            className="float-right m-12 shadow-lg w-96 h-96"
+            src={aboutData.image.src}
+            base64={aboutData.image.base64}
+            alt={aboutData.image.alt || 'About the author'}
+          />
+          <MarkDown render={aboutData.about}></MarkDown>
+        </div>
       </Section>
     </>
   );
@@ -41,17 +33,12 @@ const About = ({
 export const getServerSideProps: GetServerSideProps = async (): Promise<
   { props: AboutProps } | PageErrorProps
 > => {
-  const indexData = await IndexService.fetchIndexData();
-  const authorData = await AuthorService.fetchAuthorData();
-  const objectivesList = await ObjectiveService.fetchAllObjectives();
-  const data =
-    indexData && authorData && objectivesList
-      ? {
-          indexData,
-          authorData,
-          objectivesList,
-        }
-      : null;
+  const aboutData = await AboutService.fetchAboutData();
+  const data = aboutData
+    ? {
+        aboutData,
+      }
+    : null;
 
   if (!data) {
     return {
