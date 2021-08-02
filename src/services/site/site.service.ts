@@ -9,7 +9,7 @@ const getSiteData = (): SiteData => {
       { label: 'Donate', href: '/donate' },
     ],
     name: 'WeStillAlive',
-    title: 'Helping Children in Kenya',
+    title: 'An African Story',
   };
 };
 
