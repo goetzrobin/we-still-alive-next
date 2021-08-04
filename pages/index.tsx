@@ -50,7 +50,7 @@ const Home = ({
   return (
     <>
       <IndexHero heroImage={indexHeroImage} />
-      <Section>
+      <Section showBorderTop={false}>
         <Intro intro={intro} author={authorData} />
       </Section>
       <Section>
