@@ -27,11 +27,8 @@ export const Posts = ({
   }, [currentlySelectedTag, setDisplayedPosts, posts]);
   return (
     <div>
-      <div className="flex flex-col mb-24 md:flex-row">
-        <div className="w-full md:w-1/2">
-          <WH1>{heading}</WH1>
-        </div>
-        <div className="flex w-full md:justify-center md:w-1/2">
+      <div className="flex flex-col mb-8 md:flex-row">
+        <div className="flex w-full md:justify-center">
           <ul className="flex flex-wrap w-full pt-4 md:px-4">
             <li>
               <button className="focus:outline-none" onClick={() => setCurrentlySelectedTag(null)}>

@@ -10,7 +10,7 @@ interface HeroProps {
 export const IndexHero = ({ heroImage }: HeroProps): React.ReactElement => {
   return (
     <HeroImage heroImage={heroImage}>
-      <div className="absolute z-50 top-32 left-4 sm:left-24">
+      <div className="absolute z-50 top-24 left-4 sm:left-24">
         <WHMain>
           We Still
           <br /> Alive

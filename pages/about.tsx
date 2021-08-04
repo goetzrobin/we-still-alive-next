@@ -14,7 +14,7 @@ interface AboutProps {
 const About = ({ aboutData }: AboutProps): React.ReactElement => {
   return (
     <>
-      <Section showBorderTop={false}>
+      <Section>
         <WH1>{aboutData.title}</WH1>
         <div className="mb-4">
           <BlurImage
