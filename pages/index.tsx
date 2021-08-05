@@ -19,6 +19,7 @@ import PostService from '@services/post/post.service';
 import DonationService from '@services/donation/donation.service';
 import { DonationData } from '@models/data/DonationData';
 import { IndexHero } from '@organisms/heros/IndexHero';
+import { WH1 } from '@atoms/typo/headings/WH1';
 
 export interface IndexData {
   intro: IntroProps;
@@ -60,6 +61,7 @@ const Home = ({
         <BlogIntro blogIntro={blog} author={authorData} />
       </Section>
       <Section>
+        <WH1>{posts.heading}</WH1>
         <Posts intro={posts} posts={postsList} tags={postsTags} />
       </Section>
       <Section>
