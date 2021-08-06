@@ -15,7 +15,7 @@ export const IndexHero = ({ heroImage }: HeroProps): React.ReactElement => {
           We Still
           <br /> Alive
         </WHMain>
-        <p className="mt-4">A blog about hope.</p>
+        <p className="mt-4">An African Story.</p>
       </div>
     </HeroImage>
   );

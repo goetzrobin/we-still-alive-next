@@ -51,14 +51,14 @@ const Home = ({
   return (
     <>
       <IndexHero heroImage={indexHeroImage} />
-      <Section showBorderTop={false}>
-        <Intro intro={intro} author={authorData} />
-      </Section>
       <Section>
         <Objectives intro={objectives} objectives={objectivesList} />
       </Section>
       <Section>
         <BlogIntro blogIntro={blog} author={authorData} />
+      </Section>
+      <Section showBorderTop={false}>
+        <Intro intro={intro} author={authorData} />
       </Section>
       <Section>
         <WH1>{posts.heading}</WH1>
