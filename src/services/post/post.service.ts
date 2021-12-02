@@ -6,7 +6,7 @@ import Prismic from 'prismic-javascript';
 import ImageService from '@services/image/image.service';
 
 const fetchPosts = async (
-  pageSize = 10,
+  pageSize = 1000,
   page = 1,
   maxTags = 100
 ): Promise<PostsPreviewData | null> => {
