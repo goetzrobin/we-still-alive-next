@@ -1,10 +1,8 @@
 import BlurImage, { BlurImageProps } from '@atoms/image/BlurImage';
 import { Section } from '@atoms/layout/Section';
 import { WH1 } from '@atoms/typo/headings/WH1';
-import { WHMain } from '@atoms/typo/headings/WHMain';
 import { PostData } from '@models/data/PostData';
 import { PageErrorProps } from '@models/page/PageErrorProps';
-import { HeroImage } from '@molecules/image/HeroImage';
 import { Posts, PostsProps } from '@organisms/Posts';
 import ImageService from '@services/image/image.service';
 import PostService from '@services/post/post.service';
