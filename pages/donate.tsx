@@ -17,7 +17,7 @@ interface DonateProps {
 }
 
 const Donate = ({ donateData: { heading }, donateHeroImage }: DonateProps): React.ReactElement => {
-  const url = 'https://tumainivolunteers.org/donate-1';
+  const url = 'https://donorbox.org/donate-to-fobeworld-form';
   return (
     <>
       <HeroImage heroImage={donateHeroImage}>
